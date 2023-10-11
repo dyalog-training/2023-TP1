@@ -1,0 +1,28 @@
+ exe←_getInterpreterPath version;v;u;r;b32;pf;aplv;k
+⍝ get the interpreter path for version "version"  (ie. 182u64 etc.)
+⍝ (assumes default installations)
+ v←(2↑version),'.',version[3]
+ u←version[4]='u'      ⍝ unicode
+ r←⍬
+ b32←'32'≡¯2↑version   ⍝ are we running on 32bit?
+ :If ##._isWin
+     pf←2 ⎕NQ'.' 'GetEnvironment'('ProgramFiles',b32/'(x86)')
+     exe←pf,'\Dyalog\Dyalog APL',((~b32)/'-64'),' ',v,' ',((1+u)⊃'Classic' 'Unicode'),'\dyalog.exe'
+ :ElseIf ##._isMacOS
+     'No 32-bit version of Dyalog on Mac'⎕SIGNAL b32/11
+     'No classic version of Dyalog on Mac'⎕SIGNAL(~u)/11
+     :For pf :In '/Applications/Dyalog' '/Dyalog/Dyalog'
+         pf,←'-',v,'.app'
+         :If (⎕NEXISTS ⎕OPT 1)pf
+             exe←pf,'/Contents/Resources/Dyalog/mapl'
+             :If ⎕NEXISTS exe
+                 :Leave
+             :EndIf
+             ⍝:EndFor
+         :EndIf
+     :EndFor
+ :ElseIf ##._isLinux
+     exe←'/opt/mdyalog/',v,'/',(¯2↑version),'/',(1+u⊃'classic' 'unicode'),'/mapl'
+ :Else
+     ('Can''t determine platform! APLVersion="',aplv,'"')⎕SIGNAL 11
+ :EndIf

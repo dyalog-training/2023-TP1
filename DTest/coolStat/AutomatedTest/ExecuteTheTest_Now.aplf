@@ -1,0 +1,3 @@
+ExecuteTheTest_Now sink
+⍝ run the test
+⎕se.UCMD'DEVOPS.DTest ',2⎕nq'.' 'GetEnvironment' 'DTESTARGUMENT'

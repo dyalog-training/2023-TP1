@@ -1,0 +1,15 @@
+﻿ test_Avg←{
+
+   ⍝ (Very) basic testing
+     2 Assert #.coolStat.Avg 1 2 3:
+
+     x←∆Avg vec                              ⍝ calculating reference value using trusted algorithms
+     x Assert #.coolStat.Avg vec:            ⍝ and compare refval against new calculation
+
+     vec←vec[⍋vec]                           ⍝ sort vec
+     x Assert #.coolStat.Avg vec:            ⍝ is it still the same?
+
+ 0 Assert #.coolStat.Avg⍳0:
+
+     ''                                      ⍝ all tests ok
+ }

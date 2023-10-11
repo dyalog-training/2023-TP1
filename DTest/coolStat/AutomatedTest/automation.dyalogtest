@@ -1,0 +1,11 @@
+DyalogTest : 1.84.0
+ID         : coolStat
+Description: testing coolStat - the greatest library for professional statistics (one day)
+SuccessValue: 0
+
+Setup   : setup_coolStat
+
+Test: test_182u32
+Test: test_182u64
+Test: test_182c32
+Test: test_182c64

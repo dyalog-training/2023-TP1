@@ -1,0 +1,3 @@
+r←setup_coolStat sink
+r←0
+⎕se.SALT.Load 'APLProcess -target=#'

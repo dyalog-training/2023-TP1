@@ -1,0 +1,7 @@
+DyalogTest : 1.80
+SuccessValue: 0
+
+Setup   : setup_coolStat
+
+Test: test_Avg
+Test: test_Median

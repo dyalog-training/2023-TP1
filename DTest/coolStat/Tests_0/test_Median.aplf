@@ -1,0 +1,12 @@
+﻿ test_Median←{
+
+   ⍝ (Very) basic testing
+     2 Assert #.coolStat.Median 1 2 32768:
+
+     ⍝ test against alternative implementation...
+     c←(⌈,⌊)0.5×1+≢vec                       ⍝ determine center value(s)
+     ref←∆Avg vec[c]                         ⍝ refval is (average of) center value(s)
+     ref Assert #.coolStat.Median vec:
+
+     0                                       ⍝ all tests ok
+ }

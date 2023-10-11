@@ -1,0 +1,10 @@
+DYALOGBUILD:1
+ID: ExecuteTheTest_Now, Version=1.0.0
+
+APL: ./ExecuteTheTest_Now.aplf
+
+LX: ExecuteTheTest_Now ⍬
+
+DEFAULTS: ⎕ML←1 ⋄ ⎕IO←1
+
+TARGET: ./ExecuteTheTest_Now ,save=1

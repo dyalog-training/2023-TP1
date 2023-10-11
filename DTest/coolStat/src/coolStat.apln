@@ -1,0 +1,22 @@
+﻿:namespace coolStat
+⍝ A next generation statistics package
+⍝ ©2023 Humble Author
+⍝ in memoriam Ken Iverson, Kurt Gödel, Abu Dschaʿfar Muhammad ibn Musa al-Chwārizmī (أبو جعفر محمد بن موسى الخوارزمی,)
+⍝ with gratitude to Adám Brudzewsky and in respect of Steve Mansour
+⍝ dedicated to my lovely wife
+
+
+      Avg←{
+          ⍵⌹=⍨⍵
+          0=≢⍵:0
+      }        
+
+      Median←{
+          (2÷⍨1⊥⊢⌷⍨∘⊂⍋⌷⍨∘⊂∘⌈2÷⍨0 1+≢)⍵
+      }
+
+      Count←{⍝ counts the number of elements in a vector
+          ⍴⍵
+      }
+
+:endnamespace

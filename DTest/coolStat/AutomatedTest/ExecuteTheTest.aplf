@@ -1,0 +1,54 @@
+ r←ExecuteTheTest file;b32;u;v;pf;exe;fld;aplv;tp;cmd;res;log;k;version;ws;arg
+ ⍝ launch a new process to DTest ⍺ against Dyalog interpreter,
+ ⍝ version is determined by name of calling fn which has a _-separated suffix version=nnn(U|C)(32|64)
+ ⍝ NB: there is a virtual dot between nnn[⍳2] and nnn[3]
+
+ r←'TEST FAILED'                            ⍝ result=failure (default)
+ version←5↓2⊃⎕SI                            ⍝ the name of the calling fn specifies the platform that we want to run on!
+ exe←_getInterpreterPath version            ⍝ get the path of the interpreter (works for for Windows, Linux and MacOS)
+ :If ~⎕NEXISTS exe                          ⍝ if interpreter not found
+     ('Type' 'W')Log'Expected executable for version "',version,'" in file "',exe,'" which does not exist - could not run test!'
+     →0
+ :EndIf
+ log←##.TESTSOURCE,'coolStat_',version,'.log'    ⍝ the log file will provide info on interpreter version in its name
+ ⍝ building the argument for the call to DTest. Notice how we're passing through the switches -halt & -trace
+ arg←'../Tests/coolStat.dyalogtest -loglvl=32',(##.halt/' -h'),(##.trace/' -trace'),' -off -testlog=./',(∊1↓⎕NPARTS log)
+
+ :If 'c'=version[4]                         ⍝ classic can only load workspaces, so is a bit more evolved....
+     :If ~⎕NEXISTS ##.TESTSOURCE,'ExecuteTheTest_Now.dws'          ⍝ we may have to build the workspüace first...
+       ⍝ launch APLProcess to build the dws
+         r←'Please build the workspace using this commend:',⎕UCS 13
+         r,←'    ]dbuild "',##.TESTSOURCE,'ExecuteTheTest_Now.dyalogbuild"',⎕UCS 13
+         r,←'and run the test again!'
+         →0
+     :EndIf
+     ws←'"',##.TESTSOURCE,'ExecuteTheTest_Now.dws"'
+     cmd←'DTESTARGUMENT="',arg,'"'
+ :Else                                      ⍝ with unicode, life is easier!
+     ws←''                                  ⍝ don't need ws and can call call DTest directly
+     cmd←'LX="⎕SE.UCMD''DEVOPS.DTest ',arg,'''"'
+ :EndIf
+
+ 3(⎕NDELETE ⎕OPT 1)(log,'*')                ⍝ delete any log files before running
+
+ ⎕←'cmd=',cmd
+ tp←⎕NEW #.APLProcess(ws cmd exe'' ''(##.TESTSOURCE))         ⍝ launch the test
+ :While tp.(IsRunning Proc.Id)              ⍝ and wait till it is completed
+     ⎕DL 2
+ :EndWhile
+
+ ⍝ -loglvl=32 means: create a log.json files with machine-readable results.
+ :If 1 Check ⎕NEXISTS log←log,'.json'       ⍝ Has it been created?
+     r←'Could not find logfile "',log,'"'   ⍝ No => return info about it (will count as failure)
+ :Else
+     res←0 ⎕JSON 1⊃⎕NGET log                ⍝ read it
+     :If 2 Assert⊃res.⎕NC'rc'               ⍝ does it contain a field "rc"?
+         r←'Logfile "',log,'"did not contain field "rc"'    ⍝ "rc" is missing
+     :Else
+         :If ~20 Assert res.rc              ⍝ with value 20?
+             r←0                            ⍝ 0> that means test succeeded!
+         :Else                              ⍝ eh, no - record the failure:
+             r←'Test did not end with expected rc of 20 and returned ',(⍕res.rc),' instead. log=',∊res.LogError
+         :EndIf
+     :EndIf
+ :EndIf
