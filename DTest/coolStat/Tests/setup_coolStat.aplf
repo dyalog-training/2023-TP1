@@ -1,9 +1,7 @@
 ﻿r←setup_coolStat sink
 r←''
-⍝ ⎕se.Link.Import # (##.TESTSOURCE,'../src/coolStat.apln')
-⍝ currently (Oct 2nd) SALT deals better with the situation
-⎕se.SALT.Load ('"',##.TESTSOURCE,'../src/coolStat.apln"'),' -target=#'
-
+2#.⎕fix'file://c:/demo//src/coolStat.apln'
 
 ∆Avg←{(+/⍵)÷≢⍵}                                            ⍝ "traditional" implementation
+
 vec←'vec'##.RandomVal 10000000 ('cnt'##.RandomVal 500001)  ⍝ random values  => ⍵[2] ? ⍵[1]

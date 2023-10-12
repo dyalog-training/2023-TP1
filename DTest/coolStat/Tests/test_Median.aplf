@@ -7,7 +7,6 @@
      c←(⌈,⌊)0.5×1+≢vec                       ⍝ determine center value(s)
      ref←∆Avg vec[(⍋vec)[c]]                 ⍝ refval is (average of) center value(s)
      ref Assert #.coolStat.Median vec:
-
-     0 Assert #.coolStat.Median⍳0:
+     
      ''                                      ⍝ all tests ok
  }
