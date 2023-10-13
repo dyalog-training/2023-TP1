@@ -1,12 +1,12 @@
-﻿ ∇ r←test_Avg nul
-     r←''                                      ⍝ all tests ok
+﻿ r←test_Avg nul;x
+ r←''                                      ⍝ all tests ok
 
-   ⍝ (Very) basic testing
-     2 Assert #.coolStat.Avg 1 2 3:
+⍝ (Very) basic testing (old style)
+ :If 2 Check #.coolStat.Avg 1 2 3
+     →0 Because'The Avg of⍳3 was not calculated as 2!' ⋄ :EndIf
 
-     x←∆Avg vec                              ⍝ calculating reference value using trusted algorithms
-     x Assert #.coolStat.Avg vec:            ⍝ and compare refval against new calculation
+ x←∆Avg vec                              ⍝ calculating reference value using trusted algorithms
+ x Assert #.coolStat.Avg vec             ⍝ and compare refval against new calculation
 
-     vec←vec[⍋vec]                           ⍝ sort vec
-     x Assert #.coolStat.Avg vec:            ⍝ is it still the same?
-∇
+ vec←vec[⍋vec]                           ⍝ sort vec
+ x Assert #.coolStat.Avg vec             ⍝ is it still the same?
