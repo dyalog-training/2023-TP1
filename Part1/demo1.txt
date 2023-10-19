@@ -1,0 +1,6 @@
+]link.import # C:\TP1\DTest\coolStat\src\coolStat.apln
+]tatin.loadpackages Tester
+⍝ Or:
+tester←'https://github.com/DavinChurch/Tester/blob/main/Source/Tester/'
+{⎕SE.UCMD 'get ',tester,' ',⍵}¨'Fail.aplo' 'Pass.aplo' 'Pass_.aplo' 'Test.aplf'
+
